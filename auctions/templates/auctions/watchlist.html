@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %} {% block body %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="display-3 text-center text-info">Your watch list</h2>
+        {% if result %}
+        <div class="alert-dismissible">{{result}}</div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <ul class="list-group">
+            {% for listing in listings %}
+            <li class="list-group-item">
+                <a href="{% url 'view' listing.listing.id %}" class="text-primary">{{listing.listing.title}}</a>
+                <a href="{% url 'removewatchitem' listing.user.username listing.listing.id %}" class="px-2 pull-right text-danger fa fa-trash"></a>
+                {% if listing.listing.active == False %} {% if listing.listing.highestBidder == listing.user %}
+                <span class="alert-success">This listing is now closed and you are the winner</span> {% else %}
+                <span class="alert-dark">This listing is now closed and you are not the winner</span> {% endif %} {% else %} {% if listing.listing.highestBidder == listing.user %}
+                <span class="alert-success">You are currently the top bidder</span> {% else %}
+                <span class="alert-dark">Bid now and beat them all!!</span> {% endif %} {% endif %}
+            </li>
+            {% empty %}
+            <div class="alert-info">Sorry there appears to be no listings available</div>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

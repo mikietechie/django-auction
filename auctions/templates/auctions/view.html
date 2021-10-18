@@ -1,0 +1,69 @@
+{% extends "auctions/layout.html" %} {% block title %} {{listing.title}} {% endblock %} {% block body %} {% if user == listing.highestBidder %} {% if listing.active%} {% else %}
+<div class="alert-success">***You have won {{listing.title}}***</div>
+{% endif %} {% endif %} {% if msg %}
+<div class="alert-info">
+    {{msg}}
+</div>
+{% endif %}
+<div class="row bg-dark">
+    <div class="col-sm-12 col-md-8 col-lg-6 offset-lg-2 bg-light">
+        {% if listing.imgURL %}
+        <img src="{{listing.imgURL}}" alt="{{listing.title}} image!" class="img-fluid"> {% endif %}
+        <hr>
+        <h3 class="text-center text-primary"><small><a href="{% url 'category' listing.category %}">{{listing.category}}:></a></small>{{listing.title}}</h3>
+        <hr>
+        <p class="py-1">
+            "{{listing.description}}"
+        </p>
+        <span class="pull-right">bids : <span class="badge-primary px-5 rounded-circle">{{listing.bids}}</span>@ {{listing.minBid}} </span>
+        <hr>
+        <div class="py-1 border-primary">
+            Listing by: <strong class="text-dark">{{listing.seller}}</strong>
+        </div>
+        <hr>
+        <div class="py-1 border-success">
+            {% if user == listing.seller %}
+            <form method="post" action="{% url 'view' listing.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="close_listing" value="False">
+                <input type="hidden" name="user_username" value="{{user.username}}">
+                <button type="submit" class="btn btn-outline-danger pull-right fa-adn">Close Listing</button>
+            </form>
+            {% else %} {% if listing.active == True %}
+            <form method="post" action="{% url 'view' listing.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="user" value="{{user}}">
+                <div class="form-group">
+                    <label for="add_watch">Add watch</label><input type="checkbox" name="addwatch" style="width: 25px;height: 25px;">
+                </div>
+                <div class="form-group">
+                    <label for="minBid">Your Bid</label>
+                    <input type="number" name="minBid" class="form-control-sm" placeholder="{{ listing.minBid|add:" 1 " }}" min="{{ listing.minBid }}">
+                </div>
+                <button type="submit" class="btn btn-outline-primary pull-right fa-adn">Send</button>
+            </form>
+            {% endif %} {% endif %}
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-4 col-lg-4 mt-2">
+        <ul class="list-group">
+            {% for comment in comments %}
+            <li class="list-group-item-light p-1 mb-1 bg-dark text-light" style="border-radius: 10px;border: 1px solid whitesmoke;">
+                {{comment.msg}}<br><i class="pull-right">By:<b>{{comment.user}}</b></i>
+            </li>
+            {% empty %}
+            <div class="alert-info">No comments yet, Be the first!!!</div>
+            {% endfor %}
+        </ul>
+        <form action="{% url 'comment' %}" method="post" role="form">
+            {% csrf_token %}
+            <input type="hidden" name="user" value="{{user.username}}">
+            <input type="hidden" name="listing" value="{{listing.id}}">
+            <div class="form-group">
+                <textarea name="msg" class="text-dark" placeholder="Your comment" class="form-control" style="width: 90%;font-family: 'Times New Roman', Times, serif;max-height: 5em;border-radius: 10px;"></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-info pull-right fa-adn">Send</button>
+        </form>
+    </div>
+</div>
+{% endblock body %}

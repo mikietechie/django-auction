@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %} {% block body %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="display-3 text-center text-info">{{title}}</h2>
+    </div>
+</div>
+<div class="row">
+    {% for listing in listings %}
+    <div class="col-md-6 col-lg-4 col-sm-10 mx-auto mb-2">
+        <div class="card">
+            {% if listing.imgURL %}
+            <img src="{{listing.imgURL}}" alt="{{listing.title}} images" class="card-img-top w-100" style="max-width: 200px;"> {% endif %}
+            <div class="card-header">
+                <a href="{% url 'view' listing.id %}" class="card-title">{{listing.title}}</a>
+            </div>
+            <div class="card-body">
+                <div class="card-text">
+                    {{listing.description}}
+                </div>
+            </div>
+            <div class="card-footer text-left">
+                {{listing.minBid}}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert-info">Sorry there appears to be no listings available</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

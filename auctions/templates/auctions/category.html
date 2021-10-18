@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %} {% block body %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="display-3 text-center text-info">Categories</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <ul class="list-group">
+            {% for category in categories %}
+            <li class="list-group-item">
+                <a href="{% url 'category' category.name %}" class="text-success">{{category.name}}</a>
+            </li>
+            {% empty %}
+            <div class="alert-info">Sorry there appears to be no categories available</div>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
