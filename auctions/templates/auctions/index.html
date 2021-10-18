@@ -9,7 +9,7 @@
     <div class="col-md-6 col-lg-4 col-sm-10 mx-auto mb-2">
         <div class="card">
             {% if listing.imgURL %}
-            <img src="{{listing.imgURL}}" alt="{{listing.title}} images" class="card-img-top w-100" style="max-width: 200px;"> {% endif %}
+            <img src="{{listing.imgURL}}" alt="{{listing.title}} images" class="card-img-top w-100"> {% endif %}
             <div class="card-header">
                 <a href="{% url 'view' listing.id %}" class="card-title">{{listing.title}}</a>
             </div>

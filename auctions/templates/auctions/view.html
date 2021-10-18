@@ -8,7 +8,7 @@
 <div class="row bg-dark">
     <div class="col-sm-12 col-md-8 col-lg-6 offset-lg-2 bg-light">
         {% if listing.imgURL %}
-        <img src="{{listing.imgURL}}" alt="{{listing.title}} image!" class="img-fluid"> {% endif %}
+        <img src="{{listing.imgURL}}" alt="{{listing.title}} image!" class="img-fluid w-100"> {% endif %}
         <hr>
         <h3 class="text-center text-primary"><small><a href="{% url 'category' listing.category %}">{{listing.category}}:></a></small>{{listing.title}}</h3>
         <hr>
@@ -38,9 +38,9 @@
                 </div>
                 <div class="form-group">
                     <label for="minBid">Your Bid</label>
-                    <input type="number" name="minBid" class="form-control-sm" placeholder="{{ listing.minBid|add:" 1 " }}" min="{{ listing.minBid }}">
+                    <input type="number" name="minBid" class="form-control" placeholder="{{ listing.minBid|add:" 1 " }}" min="{{ listing.minBid }}">
                 </div>
-                <button type="submit" class="btn btn-outline-primary pull-right fa-adn">Send</button>
+                <button type="submit" class="btn btn-outline-primary pull-right fa fa-adn">Send</button>
             </form>
             {% endif %} {% endif %}
         </div>
